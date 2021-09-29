@@ -7,9 +7,9 @@ require_relative './cell'
 # Board class for denoting the board
 class Board < Observable
   # rand(4)
-  def initialize
+  def initialize(size)
     super()
-    @size = 8
+    @size = size
     @matrix = []
     init_board
   end
@@ -34,10 +34,10 @@ class Board < Observable
     bomb_neighbors = 0
     (-1..1).each do |row|
       (-1..1).each do |col|
-        border_condition = (i + row).negative? || (j + col).negative? || i + row >= @size || col + j >= @size 
+        border_condition = (i + row).negative? || (j + col).negative? || i + row >= @size || col + j >= @size
         bomb_neighbors += @matrix[i + row][j + col].is_bomb ? 1 : 0 unless border_condition
       end
     end
     bomb_neighbors
-  end  
+  end
 end

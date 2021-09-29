@@ -4,11 +4,10 @@ require_relative '../models/board'
 require_relative '../views/board'
 require 'matrix'
 
-# 
 class GameController
   def initialize
-    @model = Board.new()
-    @view = BoardView.new()
+    @model = Board.new(6)
+    @view = BoardView.new
     @model.addObserver(@view)
   end
 
@@ -25,5 +24,4 @@ class GameController
     # y = 3 if y.zero?
     # select(x, y)
   end
-
 end

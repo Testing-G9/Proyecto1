@@ -1,3 +1,6 @@
 
 # Gemfile.lock
 *.lock
+
+# Simplecov
+/coverage
