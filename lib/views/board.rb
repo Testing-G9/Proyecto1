@@ -3,19 +3,20 @@
 require 'matrix'
 require_relative '../observer/observer'
 
+# board game view
 class BoardView < Observer
-  def update(boardModel)
+  def update(board_model)
     clean
-    print_board(boardModel)
+    print_board(board_model)
   end
 
-  def print_board(boardModel)
+  def print_board(board_model)
     print '   '
     (0...8).each do |digit|
       print "_#{digit}_"
     end
     print "\n"
-    boardModel.matrix.each_with_index do |row, index|
+    board_model.matrix.each_with_index do |row, index|
       print " #{index}|"
       row.each do |cell|
         print cell

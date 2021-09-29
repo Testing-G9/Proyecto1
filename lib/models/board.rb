@@ -21,13 +21,13 @@ class Board < Observable
         cell.neighbor_bombs = get_neighbors_bombs(i, j)
       end
     end
-    notifyAll
+    notify_all
   end
 
   def mark_cell(i_pos, j_pos)
     cell = get_cell(i_pos, j_pos)
     cell.discover
-    notifyAll
+    notify_all
   end
 
   def check_is_bomb(i_pos, j_pos)

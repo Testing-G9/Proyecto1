@@ -4,11 +4,12 @@ require_relative '../models/board'
 require_relative '../views/board'
 require 'matrix'
 
+# game controller for managing view and model
 class GameController
   def initialize
     @model = Board.new
     @view = BoardView.new
-    @model.addObserver(@view)
+    @model.add_observer(@view)
     @loss = false
     print_board
   end
@@ -36,7 +37,7 @@ class GameController
   end
 
   def request_input
-    while true
+    loop do
       @view.print_options
       keys = gets.split(',')
       x = keys[0].to_i
