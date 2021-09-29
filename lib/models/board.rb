@@ -58,5 +58,4 @@ class Board < Observable
     end
     bomb_neighbors
   end
-  # rubocop:enable Metrics/MethodLength,Metrics/CyclomaticComplexity
 end
