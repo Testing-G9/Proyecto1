@@ -21,25 +21,32 @@ class Board < Observable
         cell.neighbor_bombs = get_neighbors_bombs(i, j)
       end
     end
-    notifyAll()
+    notifyAll
   end
 
-  def mark(x, y)
-    cell = @matrix[x][y]
+  def mark_cell(i_pos, j_pos)
+    cell = get_cell(i_pos, j_pos)
     cell.discover
-    notifyAll()
+    notifyAll
   end
 
-  def matrix
-    return @matrix
+  def check_is_bomb(i_pos, j_pos)
+    cell = get_cell(i_pos, j_pos)
+    cell.is_bomb
   end
 
-  def get_neighbors_bombs(i, j)
+  attr_reader :matrix
+
+  def get_cell(i_pos, j_pos)
+    @matrix[j_pos][i_pos]
+  end
+
+  def get_neighbors_bombs(i_pos, j_pos)
     bomb_neighbors = 0
     (-1..1).each do |row|
       (-1..1).each do |col|
-        border_condition = (i + row).negative? || (j + col).negative? || i + row >= @size || col + j >= @size
-        bomb_neighbors += @matrix[i + row][j + col].is_bomb ? 1 : 0 unless border_condition
+        border_condition = (i_pos + row).negative? || (j_pos + col).negative? || i_pos + row >= @size || col + j_pos >= @size
+        bomb_neighbors += @matrix[i_pos + row][j_pos + col].is_bomb ? 1 : 0 unless border_condition
       end
     end
     bomb_neighbors

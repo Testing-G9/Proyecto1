@@ -2,11 +2,13 @@
 
 class Observable
   def initialize
-    @observers = Array.new
+    @observers = []
   end
+
   def addObserver(observer)
     @observers << observer
   end
+
   def notifyAll
     @observers.each { |observer| observer.update(self) }
   end
