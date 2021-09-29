@@ -6,6 +6,8 @@ require_relative './cell'
 
 # Board class for denoting the board
 class Board < Observable
+  attr_reader :matrix
+
   def initialize
     super()
     @size = 8
@@ -34,22 +36,24 @@ class Board < Observable
     cell.is_bomb
   end
 
-  attr_reader :matrix
-
   def get_cell(i_pos, j_pos)
     @matrix[j_pos][i_pos]
   end
 
-  # rubocop:disable Metrics/MethodLength,Metrics/CyclomaticComplexity
+  def border_condition(i_pos, j_pos, row, col)
+    (i_pos + row).negative? ||
+      (j_pos + col).negative? ||
+      i_pos + row >= @size    ||
+      col + j_pos >= @size
+  end
+
   def get_neighbors_bombs(i_pos, j_pos)
     bomb_neighbors = 0
     (-1..1).each do |row|
       (-1..1).each do |col|
-        border_condition = (i_pos + row).negative? ||
-                           (j_pos + col).negative? ||
-                           i_pos + row >= @size    ||
-                           col + j_pos >= @size
-        bomb_neighbors += @matrix[i_pos + row][j_pos + col].is_bomb ? 1 : 0 unless border_condition
+        unless border_condition(i_pos, j_pos, row, col)
+          bomb_neighbors += @matrix[i_pos + row][j_pos + col].is_bomb ? 1 : 0
+        end
       end
     end
     bomb_neighbors
