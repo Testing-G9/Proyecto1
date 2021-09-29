@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
-require 'matrix'
-
 require_relative './controllers/game'
 
-game = GameController.new
+GameController.new
 # game.printBoard
