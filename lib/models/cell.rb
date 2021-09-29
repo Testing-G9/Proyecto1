@@ -9,7 +9,7 @@ class Cell
     @is_bomb = rand < 0.14
     @neighbor_bombs = 0
   end
-#   def print_cell
-    
-#   end
+  #   def print_cell
+
+  #   end
 end

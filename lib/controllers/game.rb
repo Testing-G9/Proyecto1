@@ -4,6 +4,7 @@ require_relative '../models/board'
 require_relative '../views/board'
 require 'matrix'
 
+# Game controller implementation
 class GameController
   def initialize
     @model = Board.new(6)
@@ -11,12 +12,12 @@ class GameController
     @model.addObserver(@view)
   end
 
-  def printBoard
+  def print_board
     # @view.clean
     # @view.printBoard(@model)
   end
 
-  def requestInput
+  def request_input
     # @view.printOptions(playerSymbol)
     # key = $stdin.gets.to_i
     # x = (key / 3.0).ceil
