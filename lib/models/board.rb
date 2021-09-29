@@ -21,23 +21,27 @@ class Board < Observable
         cell.neighbor_bombs = get_neighbors_bombs(i, j)
       end
     end
+    notifyAll()
+  end
 
-    @matrix.each do |row|
-      row.each do |cell|
-        print cell.is_bomb ? 'X' : cell.neighbor_bombs
-      end
-      print "\n"
-    end
+  def mark(x, y)
+    cell = @matrix[x][y]
+    cell.discover
+    notifyAll()
+  end
+
+  def matrix
+    return @matrix
   end
 
   def get_neighbors_bombs(i, j)
     bomb_neighbors = 0
     (-1..1).each do |row|
       (-1..1).each do |col|
-        border_condition = (i + row).negative? || (j + col).negative? || i + row >= @size || col + j >= @size 
+        border_condition = (i + row).negative? || (j + col).negative? || i + row >= @size || col + j >= @size
         bomb_neighbors += @matrix[i + row][j + col].is_bomb ? 1 : 0 unless border_condition
       end
     end
     bomb_neighbors
-  end  
+  end
 end
