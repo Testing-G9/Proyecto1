@@ -6,7 +6,7 @@ require_relative './cell'
 
 # Board class for denoting the board
 class Board < Observable
-  attr_accessor :matrix
+  attr_accessor :matrix, :size
 
   def initialize(size)
     super()
@@ -25,10 +25,53 @@ class Board < Observable
     notify_all
   end
 
+  def border_condition(i_pos, j_pos, row, col)
+    (i_pos + row).negative? ||
+      (j_pos + col).negative? ||
+      i_pos + row >= @size    ||
+      col + j_pos >= @size
+  end
+
+  def discovered_condition(i_pos, j_pos, row, col)
+    cell = get_cell(i_pos + row, j_pos + col)
+    cell.is_open
+  end
+
+  def orthogonal?(row, col)
+    row.abs ^ col.abs
+  end
+
+  def unveal_position_check(i_pos, j_pos, row, col)
+    cell = get_cell(i_pos + row, j_pos + col)
+
+    border_condition(i_pos, j_pos, row, col) ||
+      discovered_condition(i_pos, j_pos, row, col) ||
+      orthogonal?(row, col).zero? ||
+      cell.is_bomb
+  end
+
+  def discover_board(i_pos, j_pos)
+    (-1..1).each do |row|
+      (-1..1).each do |col|
+        next if unveal_position_check(i_pos, j_pos, row, col)
+
+        cell = get_cell(i_pos + row, j_pos + col)
+        cell.discover
+        discover_board(i_pos + row, j_pos + col) unless cell.neighbor_bombs.positive?
+      end
+    end
+  end
+
   def mark_cell(i_pos, j_pos)
+    discover_cell(i_pos, j_pos)
+    discover_board(i_pos, j_pos)
+    notify_all
+  end
+
+  def discover_cell(i_pos, j_pos)
     cell = get_cell(i_pos, j_pos)
     cell.discover
-    notify_all
+    # notify_all
   end
 
   def check_is_bomb(i_pos, j_pos)
@@ -38,13 +81,6 @@ class Board < Observable
 
   def get_cell(i_pos, j_pos)
     @matrix[i_pos][j_pos]
-  end
-
-  def border_condition(i_pos, j_pos, row, col)
-    (i_pos + row).negative? ||
-      (j_pos + col).negative? ||
-      i_pos + row >= @size    ||
-      col + j_pos >= @size
   end
 
   def get_neighbors_bombs(i_pos, j_pos)
