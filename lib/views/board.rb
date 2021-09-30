@@ -12,7 +12,7 @@ class BoardView < Observer
 
   def print_board(board_model)
     print '   '
-    (0...8).each do |digit|
+    (0...board_model.size).each do |digit|
       print "_#{digit}_"
     end
     print "\n"
