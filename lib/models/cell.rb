@@ -9,7 +9,16 @@ class Cell
     @is_bomb = rand < 0.14
     @neighbor_bombs = 0
   end
-  #   def print_cell
 
-  #   end
+  def discover
+    @is_open = true
+  end
+
+  def print_discover
+    @is_bomb ? ' * ' : " #{@neighbor_bombs} "
+  end
+
+  def to_s
+    @is_open ? print_discover : ' X '
+  end
 end

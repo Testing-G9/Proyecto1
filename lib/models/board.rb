@@ -22,18 +22,32 @@ class Board < Observable
         cell.neighbor_bombs = get_neighbors_bombs(i, j)
       end
     end
+    notify_all
   end
 
-  def check_border_condition(x_pos, y_pos, row, col)
-    (x_pos + row).negative? || (y_pos + col).negative? || x_pos + row >= @size || col + y_pos >= @size
+  def mark_cell(i_pos, j_pos)
+    cell = get_cell(i_pos, j_pos)
+    cell.discover
+    notify_all
   end
 
-  def get_neighbors_bombs(x_pos, y_pos)
+  def check_is_bomb(i_pos, j_pos)
+    cell = get_cell(i_pos, j_pos)
+    cell.is_bomb
+  end
+
+  attr_reader :matrix
+
+  def get_cell(i_pos, j_pos)
+    @matrix[j_pos][i_pos]
+  end
+
+  def get_neighbors_bombs(i_pos, j_pos)
     bomb_neighbors = 0
     (-1..1).each do |row|
       (-1..1).each do |col|
-        border_condition = check_border_condition(x_pos, y_pos, row, col)
-        bomb_neighbors += @matrix[x_pos + row][y_pos + col].is_bomb ? 1 : 0 unless border_condition
+        border_condition = (i_pos + row).negative? || (j_pos + col).negative? || i_pos + row >= @size || col + j_pos >= @size
+        bomb_neighbors += @matrix[i_pos + row][j_pos + col].is_bomb ? 1 : 0 unless border_condition
       end
     end
     bomb_neighbors
