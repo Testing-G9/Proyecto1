@@ -36,10 +36,8 @@ class Board < Observable
     cell.is_bomb
   end
 
-  attr_reader :matrix
-
   def get_cell(i_pos, j_pos)
-    @matrix[j_pos][i_pos]
+    @matrix[i_pos][j_pos]
   end
 
   def get_neighbors_bombs(i_pos, j_pos)

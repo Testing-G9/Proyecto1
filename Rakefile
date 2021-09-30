@@ -2,7 +2,7 @@
 
 require 'rubocop/rake_task'
 
-task default: %w[lint test]
+task default: %w[test lint]
 
 task :test do
   ruby 'test/all.rb'
