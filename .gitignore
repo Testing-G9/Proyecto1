@@ -1,0 +1,9 @@
+
+# Gemfile.lock
+*.lock
+
+# Simplecov
+/coverage
+
+# Extras
+.DS_Store

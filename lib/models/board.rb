@@ -6,10 +6,11 @@ require_relative './cell'
 
 # Board class for denoting the board
 class Board < Observable
-  # rand(4)
-  def initialize
+  attr_accessor :matrix
+
+  def initialize(size)
     super()
-    @size = 8
+    @size = size
     @matrix = []
     init_board
   end
