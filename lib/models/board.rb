@@ -87,9 +87,9 @@ class Board < Observable
     bomb_neighbors = 0
     (-1..1).each do |row|
       (-1..1).each do |col|
-        unless border_condition(i_pos, j_pos, row, col)
-          bomb_neighbors += @matrix[i_pos + row][j_pos + col].is_bomb ? 1 : 0
-        end
+        next if border_condition(i_pos, j_pos, row, col) || row.zero? && col.zero?
+
+        bomb_neighbors += @matrix[i_pos + row][j_pos + col].is_bomb ? 1 : 0
       end
     end
     bomb_neighbors
