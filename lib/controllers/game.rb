@@ -7,7 +7,7 @@ require 'matrix'
 # game controller for managing view and model
 class GameController
   def initialize
-    @model = Board.new
+    @model = Board.new(6)
     @view = BoardView.new
     @model.add_observer(@view)
     @loss = false

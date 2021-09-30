@@ -31,4 +31,12 @@ class BoardTest < Test::Unit::TestCase
       end
     end
   end
+
+  def test_get_cell
+    @board.matrix.each_with_index do |row, i|
+      row.each_with_index do |cell, j|
+        assert_equal(cell, @board.get_cell(i, j), 'Incorrect cell gotten from board')
+      end
+    end
+  end
 end

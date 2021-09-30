@@ -37,7 +37,7 @@ class Board < Observable
   end
 
   def get_cell(i_pos, j_pos)
-    @matrix[j_pos][i_pos]
+    @matrix[i_pos][j_pos]
   end
 
   def border_condition(i_pos, j_pos, row, col)
