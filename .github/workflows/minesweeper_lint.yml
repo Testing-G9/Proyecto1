@@ -1,4 +1,4 @@
-name: Ruby
+name: Ruby Lint
 
 on:
   push:
@@ -17,7 +17,7 @@ jobs:
       uses: ruby/setup-ruby@v1
       with:
         ruby-version: 3.0.2
-    - name: Build and test with Rake
+    - name: Build and lint with Rake
       run: |
         gem install bundler
         bundle install --jobs 4 --retry 3
