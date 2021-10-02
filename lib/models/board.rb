@@ -28,6 +28,12 @@ class Board < Observable
   def mark_cell(i_pos, j_pos)
     cell = get_cell(i_pos, j_pos)
     cell.discover
+    (-1..1).each do |row|
+      (-1..1).each do |col|
+        border_condition = (i_pos + row).negative? || (j_pos + col).negative? || i_pos + row >= @size || col + j_pos >= @size
+        mark_cell(i_pos + row, j_pos + col) unless (border_condition || @matrix[i_pos + row][j_pos + col].is_open || @matrix[i_pos + row][j_pos + col].neighbor_bombs!=0 )
+      end
+    end 
     notify_all
   end
 
