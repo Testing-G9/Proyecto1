@@ -41,11 +41,9 @@ class Board < Observable
     row.abs ^ col.abs
   end
 
-  def unveal_position_check(i_pos, j_pos, row, col)
+  def unveil_position_check(i_pos, j_pos, row, col)
     if !border_condition(i_pos, j_pos, row, col)
       cell = get_cell(i_pos + row, j_pos + col)
-
-    border_condition(i_pos, j_pos, row, col) ||
       discovered_condition(i_pos, j_pos, row, col) ||
         orthogonal?(row, col).zero? ||
         cell.is_bomb
@@ -56,13 +54,12 @@ class Board < Observable
 
   def discover_board(i_pos, j_pos)
     [-1, 0, 1].repeated_permutation(2).each do |row, col|
-      next if unveal_position_check(i_pos, j_pos, row, col)
+      next if unveil_position_check(i_pos, j_pos, row, col)
 
       cell = get_cell(i_pos + row, j_pos + col)
       cell.discover
       discover_board(i_pos + row, j_pos + col) unless cell.neighbor_bombs.positive?
     end
-  end
   end
 
   def mark_cell(i_pos, j_pos)
@@ -89,13 +86,20 @@ class Board < Observable
 
   def get_neighbors_bombs(i_pos, j_pos)
     bomb_neighbors = 0
-    (-1..1).each do |row|
-      (-1..1).each do |col|
-        next if border_condition(i_pos, j_pos, row, col) || row.zero? && col.zero?
+    [-1, 0, 1].repeated_permutation(2).each do |row, col|
+      next if border_condition(i_pos, j_pos, row, col) || row.zero? && col.zero?
 
-        bomb_neighbors += @matrix[i_pos + row][j_pos + col].is_bomb ? 1 : 0
-      end
+      bomb_neighbors += @matrix[i_pos + row][j_pos + col].is_bomb ? 1 : 0
     end
     bomb_neighbors
+  end
+
+  def unveil_bombs
+    @matrix.each do |row|
+      row.each do |cell|
+        cell.discover if cell.is_bomb
+      end
+    end
+    notify_all
   end
 end
