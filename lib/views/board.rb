@@ -25,8 +25,8 @@ class BoardView < Observer
     end
   end
 
-  def congratulate(player_symbol)
-    # TODO
+  def congratulate
+    print "Congratulations you won!"
   end
 
   def game_over

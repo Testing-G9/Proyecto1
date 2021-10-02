@@ -52,6 +52,15 @@ class Board < Observable
     end
   end
 
+  def check_winning_condition
+    @matrix.each_with_index do |row, i|
+      row.each_with_index do |cell, j|
+        return false if !cell.is_bomb && !cell.is_open
+      end
+    end
+    return true
+  end
+
   def discover_board(i_pos, j_pos)
     [-1, 0, 1].repeated_permutation(2).each do |row, col|
       next if unveil_position_check(i_pos, j_pos, row, col)
