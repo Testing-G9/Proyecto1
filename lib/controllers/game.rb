@@ -6,8 +6,10 @@ require 'matrix'
 
 # game controller for managing view and model
 class GameController
-  def initialize
-    @model = Board.new(6)
+  attr_accessor :model, :view, :loss
+
+  def initialize(size)
+    @model = Board.new(size)
     @view = BoardView.new
     @model.add_observer(@view)
     @loss = false
@@ -25,11 +27,12 @@ class GameController
     check_loss(x, y)
   end
 
-  attr_reader :loss
-
   def check_loss(i_pos, j_pos)
     @loss = @model.check_is_bomb(i_pos, j_pos)
-    @view.game_over if @loss
+    return unless @loss
+
+    @view.game_over
+    @model.unveil_bombs
   end
 
   def mark_cell(i_pos, j_pos)
@@ -42,7 +45,7 @@ class GameController
       keys = gets.split(',')
       x = keys[0].to_i
       y = keys[1].to_i
-      return x, y if (x < 8) && (y < 8)
+      return x, y if (x < @model.size) && (y < @model.size)
     end
   end
 end
