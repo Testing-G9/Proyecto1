@@ -4,6 +4,7 @@ require_relative '../test_helper'
 require_relative '../../lib/models/board'
 require 'test/unit'
 
+# rubocop:disable Metrics/ClassLength
 # Class for testing the board model
 class BoardTest < Test::Unit::TestCase
   def setup
@@ -126,3 +127,4 @@ class BoardTest < Test::Unit::TestCase
     assert_equal(true, @board.unveil_position_check(0, 5, 0, 1), 'Border condition incorrect')
   end
 end
+# rubocop:enable Metrics/ClassLength

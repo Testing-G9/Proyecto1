@@ -12,9 +12,7 @@ class BoardView < Observer
 
   def print_board(board_model)
     print '   '
-    (0...board_model.size).each do |digit|
-      print "_#{digit}_"
-    end
+    print (0...board_model.size).map { |k| "_#{k}_" }.join('')
     print "\n"
     board_model.matrix.each_with_index do |row, index|
       print " #{index}|"
