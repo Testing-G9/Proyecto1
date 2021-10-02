@@ -6,7 +6,7 @@ class Cell
 
   def initialize
     @is_open = false
-    @is_bomb = rand < 0.14
+    @is_bomb = rand < 0.2
     @neighbor_bombs = 0
   end
 

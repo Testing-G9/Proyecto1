@@ -6,7 +6,7 @@ require_relative './cell'
 
 # Board class for denoting the board
 class Board < Observable
-  attr_accessor :matrix
+  attr_accessor :matrix, :size
 
   def initialize(size)
     super()
@@ -25,10 +25,54 @@ class Board < Observable
     notify_all
   end
 
+  def border_condition(i_pos, j_pos, row, col)
+    (i_pos + row).negative? ||
+      (j_pos + col).negative? ||
+      i_pos + row >= @size    ||
+      col + j_pos >= @size
+  end
+
+  def discovered_condition(i_pos, j_pos, row, col)
+    cell = get_cell(i_pos + row, j_pos + col)
+    cell.is_open
+  end
+
+  def orthogonal?(row, col)
+    row.abs ^ col.abs
+  end
+
+  def unveil_position_check(i_pos, j_pos, row, col)
+    if !border_condition(i_pos, j_pos, row, col)
+      cell = get_cell(i_pos + row, j_pos + col)
+      discovered_condition(i_pos, j_pos, row, col) ||
+        orthogonal?(row, col).zero? ||
+        cell.is_bomb
+    else
+      true
+    end
+  end
+
+  def discover_board(i_pos, j_pos)
+    [-1, 0, 1].repeated_permutation(2).each do |row, col|
+      next if unveil_position_check(i_pos, j_pos, row, col)
+
+      cell = get_cell(i_pos + row, j_pos + col)
+      cell.discover
+      discover_board(i_pos + row, j_pos + col) unless cell.neighbor_bombs.positive?
+    end
+  end
+
   def mark_cell(i_pos, j_pos)
+    discover_cell(i_pos, j_pos)
+    cell = get_cell(i_pos, j_pos)
+    discover_board(i_pos, j_pos) unless cell.neighbor_bombs.positive? || cell.is_bomb
+    notify_all
+  end
+
+  def discover_cell(i_pos, j_pos)
     cell = get_cell(i_pos, j_pos)
     cell.discover
-    notify_all
+    # notify_all
   end
 
   def check_is_bomb(i_pos, j_pos)
@@ -42,12 +86,20 @@ class Board < Observable
 
   def get_neighbors_bombs(i_pos, j_pos)
     bomb_neighbors = 0
-    (-1..1).each do |row|
-      (-1..1).each do |col|
-        border_condition = (i_pos + row).negative? || (j_pos + col).negative? || i_pos + row >= @size || col + j_pos >= @size
-        bomb_neighbors += @matrix[i_pos + row][j_pos + col].is_bomb ? 1 : 0 unless border_condition
-      end
+    [-1, 0, 1].repeated_permutation(2).each do |row, col|
+      next if border_condition(i_pos, j_pos, row, col) || row.zero? && col.zero?
+
+      bomb_neighbors += @matrix[i_pos + row][j_pos + col].is_bomb ? 1 : 0
     end
     bomb_neighbors
+  end
+
+  def unveil_bombs
+    @matrix.each do |row|
+      row.each do |cell|
+        cell.discover if cell.is_bomb
+      end
+    end
+    notify_all
   end
 end
