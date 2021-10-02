@@ -6,13 +6,14 @@ require 'matrix'
 
 # game controller for managing view and model
 class GameController
-  attr_accessor :model, :view, :loss
+  attr_accessor :model, :view, :loss, :win
 
   def initialize(size)
     @model = Board.new(size)
     @view = BoardView.new
     @model.add_observer(@view)
     @loss = false
+    @win = false
     print_board
   end
 
@@ -25,6 +26,7 @@ class GameController
     x, y = request_input
     mark_cell(x, y)
     check_loss(x, y)
+    check_win
   end
 
   def check_loss(i_pos, j_pos)
@@ -35,6 +37,14 @@ class GameController
     @model.unveil_bombs
   end
 
+  def check_win
+    @win = @model.check_winning_condition
+    return unless @win
+
+    @view.congratulate
+    @model.unveil_bombs
+  end
+ 
   def mark_cell(i_pos, j_pos)
     @model.mark_cell(i_pos, j_pos)
   end
