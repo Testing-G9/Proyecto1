@@ -42,29 +42,33 @@ class Board < Observable
   end
 
   def unveal_position_check(i_pos, j_pos, row, col)
-    cell = get_cell(i_pos + row, j_pos + col)
+    if !border_condition(i_pos, j_pos, row, col)
+      cell = get_cell(i_pos + row, j_pos + col)
 
     border_condition(i_pos, j_pos, row, col) ||
       discovered_condition(i_pos, j_pos, row, col) ||
-      orthogonal?(row, col).zero? ||
-      cell.is_bomb
+        orthogonal?(row, col).zero? ||
+        cell.is_bomb
+    else
+      true
+    end
   end
 
   def discover_board(i_pos, j_pos)
-    (-1..1).each do |row|
-      (-1..1).each do |col|
-        next if unveal_position_check(i_pos, j_pos, row, col)
+    [-1, 0, 1].repeated_permutation(2).each do |row, col|
+      next if unveal_position_check(i_pos, j_pos, row, col)
 
-        cell = get_cell(i_pos + row, j_pos + col)
-        cell.discover
-        discover_board(i_pos + row, j_pos + col) unless cell.neighbor_bombs.positive?
-      end
+      cell = get_cell(i_pos + row, j_pos + col)
+      cell.discover
+      discover_board(i_pos + row, j_pos + col) unless cell.neighbor_bombs.positive?
     end
+  end
   end
 
   def mark_cell(i_pos, j_pos)
     discover_cell(i_pos, j_pos)
-    discover_board(i_pos, j_pos)
+    cell = get_cell(i_pos, j_pos)
+    discover_board(i_pos, j_pos) unless cell.neighbor_bombs.positive? || cell.is_bomb
     notify_all
   end
 
