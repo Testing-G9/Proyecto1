@@ -24,7 +24,7 @@ class BoardView < Observer
   end
 
   def congratulate
-    print "Congratulations you won!"
+    print 'Congratulations you won!'
   end
 
   def game_over
