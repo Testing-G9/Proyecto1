@@ -125,4 +125,13 @@ class BoardTest < Test::Unit::TestCase
     assert_equal(true, @board.unveil_position_check(5, 0, 1, 0), 'Border condition incorrect')
     assert_equal(true, @board.unveil_position_check(0, 5, 0, 1), 'Border condition incorrect')
   end
+
+  def test_win
+    @board.matrix.each_with_index do |row, i|
+      row.each_with_index do |cell, j|
+        @board.mark_cell(i,j) unless cell.is_open || cell.is_bomb
+      end
+    end
+    assert_equal(true, @board.check_winning_condition)
+  end
 end
