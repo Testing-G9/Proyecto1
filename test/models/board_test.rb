@@ -126,5 +126,11 @@ class BoardTest < Test::Unit::TestCase
     assert_equal(true, @board.unveil_position_check(5, 0, 1, 0), 'Border condition incorrect')
     assert_equal(true, @board.unveil_position_check(0, 5, 0, 1), 'Border condition incorrect')
   end
+
+  def test_print_discover
+    cell = @board.get_cell(0, 0)
+    assert_equal(' 0 ', cell.print_discover, 'Cell not printing correctly')
+  end
+
 end
 # rubocop:enable Metrics/ClassLength
