@@ -7,4 +7,4 @@ gem 'rubocop'
 gem 'simplecov', require: false, group: :test
 gem 'test-unit'
 
-gem "mocha", "~> 1.13"
+gem 'mocha', '~> 1.13'

@@ -135,7 +135,7 @@ class BoardTest < Test::Unit::TestCase
   def test_win
     @board.matrix.each_with_index do |row, i|
       row.each_with_index do |cell, j|
-        @board.mark_cell(i,j) unless cell.is_open || cell.is_bomb
+        @board.mark_cell(i, j) unless cell.is_open || cell.is_bomb
       end
     end
     assert_equal(true, @board.check_winning_condition)

@@ -53,12 +53,12 @@ class Board < Observable
   end
 
   def check_winning_condition
-    @matrix.each_with_index do |row, i|
-      row.each_with_index do |cell, j|
+    @matrix.each_with_index do |row, _i|
+      row.each_with_index do |cell, _j|
         return false if !cell.is_bomb && !cell.is_open
       end
     end
-    return true
+    true
   end
 
   def discover_board(i_pos, j_pos)

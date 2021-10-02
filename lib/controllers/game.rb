@@ -44,7 +44,7 @@ class GameController
     @view.congratulate
     @model.unveil_bombs
   end
- 
+
   def mark_cell(i_pos, j_pos)
     @model.mark_cell(i_pos, j_pos)
   end
