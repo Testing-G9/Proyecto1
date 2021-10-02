@@ -38,6 +38,6 @@ class BoardView < Observer
   end
 
   def print_options
-    print "Select position (x,y)\n"
+    print "Select position (Vertical Row, Horizontal Column)\n"
   end
 end
