@@ -30,4 +30,14 @@ class GameTest < Test::Unit::TestCase
     @game.check_loss(5, 5)
     assert_equal(@game.loss, true)
   end
+
+  def test_mark_cell
+    @game.model.mark_cell(3,3)
+    assert_equal(true, @game.model.matrix[3][3].is_open)
+    @game.model.matrix.each_with_index do |row, i|
+      row.each_with_index do |cell, j|
+        assert_equal(false, cell.is_open, 'Cell is unveiled incorrectly') unless j == 3 && i == 3
+      end
+    end
+  end
 end
