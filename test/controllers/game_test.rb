@@ -53,5 +53,10 @@ class GameTest < Test::Unit::TestCase
       end
     end
     assert_equal(true, @game.check_win)
+
+  def test_player_turn
+    io = StringIO.new('3,4')
+    $stdin = io
+    @game.player_turn
   end
 end
