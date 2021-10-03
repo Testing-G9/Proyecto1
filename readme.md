@@ -1,1 +1,23 @@
-El enunciado asigna un puntaje al diseño. La rubrica aclara que la lógica del juego no debe depender o llamar directamente a la vista. En el juego la vista se refiere a la consola (imprimir, leer datos de consola). En este sentido, si aplican correctamente MVC ayudaría a tener la vista separada del modelo.  Es posible utilizar diferentes diseños de clase siempre que la lógica este separada de la vista (o variaciones del ejemplo de MVC visto en clase), esto permitirá realizar pruebas unitarias a la lógica de forma mas sencilla.
+# Proyecto IIC3745
+
+## Integrantes
+
+* Joaquin Araya
+* Hans Hartmann
+* Wenyi He
+* Leo Olivares
+* Sebastian Ricke
+
+## Instrucciones
+
+Para ejecutar todos los test:
+
+`bundle install`
+
+`rake test`
+
+Para ejecutar el juego simplemente en la carpeta raíz ejecutar
+
+`ruby lib/main.rb`
+
+Para jugar simplemente poner en la consola dos coordenadas separadas por una coma, siempre dentro de los números que aparecen en el borde del tablero.
