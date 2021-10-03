@@ -1,6 +1,6 @@
-#### Proyecto IIC3745
+# Proyecto IIC3745
 
-### Integrantes
+## Integrantes
 
 * Joaquin Araya
 * Hans Hartmann
@@ -8,7 +8,7 @@
 * Leo Olivares
 * Sebastian Ricke
 
-### Instrucciones
+## Instrucciones
 
 Para ejecutar todos los test:
 
