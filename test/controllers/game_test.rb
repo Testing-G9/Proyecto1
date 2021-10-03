@@ -44,20 +44,22 @@ class GameTest < Test::Unit::TestCase
   end
 
   def test_check_win
-    @game.model.expects(:unveil_bombs).returns.at_least_once
-    @game.model.matrix.each_with_index do |row, i|
-      row.each_with_index do |cell, j|
-        silenced do
+    silenced do
+      @game.model.expects(:unveil_bombs).returns.at_least_once
+      @game.model.matrix.each_with_index do |row, i|
+        row.each_with_index do |cell, j|
           @game.model.mark_cell(i, j) unless cell.is_open || cell.is_bomb
         end
       end
+      assert_equal(true, @game.check_win)
     end
-    assert_equal(true, @game.check_win)
   end
 
   def test_player_turn
-    io = StringIO.new('3,4')
-    $stdin = io
-    @game.player_turn
+    silenced do
+      io = StringIO.new('3,4')
+      $stdin = io
+      @game.player_turn
+    end
   end
 end
